@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const pathname = usePathname();
 
   useEffect(() => {
@@ -15,8 +16,86 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      setActiveSection('');
+      return;
+    }
+
+    let setupFrame = 0;
+    let observer: IntersectionObserver | null = null;
+    let resizeHandler: (() => void) | null = null;
+
+    const setupSectionTracking = () => {
+      const sections = ['canciones', 'videos']
+        .map((sectionId) => document.getElementById(sectionId))
+        .filter((section): section is HTMLElement => section !== null);
+
+      if (sections.length === 0) {
+        setupFrame = window.requestAnimationFrame(setupSectionTracking);
+        return;
+      }
+
+      const syncActiveSection = () => {
+        const viewportMarker = window.innerHeight * 0.45;
+        let nextSection = '';
+
+        for (const section of sections) {
+          const rect = section.getBoundingClientRect();
+
+          if (rect.top <= viewportMarker && rect.bottom >= viewportMarker) {
+            nextSection = section.id;
+            break;
+          }
+        }
+
+        setActiveSection(nextSection);
+      };
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visibleEntries = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((entryA, entryB) => entryB.intersectionRatio - entryA.intersectionRatio);
+
+          if (visibleEntries.length > 0) {
+            setActiveSection(visibleEntries[0].target.id);
+            return;
+          }
+
+          syncActiveSection();
+        },
+        {
+          rootMargin: '-35% 0px -35% 0px',
+          threshold: [0.15, 0.35, 0.55, 0.75],
+        }
+      );
+
+      sections.forEach((section) => observer?.observe(section));
+
+      resizeHandler = syncActiveSection;
+      syncActiveSection();
+      window.addEventListener('resize', resizeHandler);
+    };
+
+    setupSectionTracking();
+
+    return () => {
+      if (setupFrame) {
+        window.cancelAnimationFrame(setupFrame);
+      }
+
+      observer?.disconnect();
+
+      if (resizeHandler) {
+        window.removeEventListener('resize', resizeHandler);
+      }
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -48,8 +127,8 @@ export default function Header() {
           <span className="logo-text">SIBERIANO</span>
         </Link>
         <nav className="nav-links" id="nav-links">
-          <Link href="/#canciones" className="nav-link" id="nav-canciones">CANCIONES</Link>
-          <Link href="/#videos" className="nav-link" id="nav-videos">VIDEOS</Link>
+          <Link href="/#canciones" className={`nav-link${pathname === '/' && activeSection === 'canciones' ? ' active' : ''}`} id="nav-canciones">CANCIONES</Link>
+          <Link href="/#videos" className={`nav-link${pathname === '/' && activeSection === 'videos' ? ' active' : ''}`} id="nav-videos">VIDEOS</Link>
           <Link href="/1162-underground" className={`nav-link${pathname === '/1162-underground' ? ' active' : ''}`} id="nav-1162">1162 UNDERGROUND</Link>
           <Link href="/aetherium-mob" className={`nav-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="nav-aetherium">AETHERIUM MOB</Link>
           <Link
@@ -72,8 +151,8 @@ export default function Header() {
 
       <div className={`menu-overlay${menuOpen ? ' open' : ''}`} id="menu-overlay">
         <div className="menu-overlay-content">
-          <Link href="/#canciones" className="menu-overlay-link" id="menu-link-canciones" onClick={closeMenu}>CANCIONES</Link>
-          <Link href="/#videos" className="menu-overlay-link" id="menu-link-videos" onClick={closeMenu}>VIDEOS</Link>
+          <Link href="/#canciones" className={`menu-overlay-link${pathname === '/' && activeSection === 'canciones' ? ' active' : ''}`} id="menu-link-canciones" onClick={closeMenu}>CANCIONES</Link>
+          <Link href="/#videos" className={`menu-overlay-link${pathname === '/' && activeSection === 'videos' ? ' active' : ''}`} id="menu-link-videos" onClick={closeMenu}>VIDEOS</Link>
           <Link href="/1162-underground" className={`menu-overlay-link${pathname === '/1162-underground' ? ' active' : ''}`} id="menu-link-1162" onClick={closeMenu}>1162 UNDERGROUND</Link>
           <Link href="/aetherium-mob" className={`menu-overlay-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="menu-link-aetherium" onClick={closeMenu}>AETHERIUM MOB</Link>
           <Link
