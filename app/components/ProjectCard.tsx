@@ -2,9 +2,28 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function ProjectCard({ id, href, imageSrc, imageAlt, artist, title, index }) {
-  const cardRef = useRef(null);
+type ProjectCardProps = {
+  id: string;
+  href: string;
+  imageSrc: string;
+  imageAlt: string;
+  artist: string;
+  title: string;
+  index: number;
+};
+
+export default function ProjectCard({
+  id,
+  href,
+  imageSrc,
+  imageAlt,
+  artist,
+  title,
+  index,
+}: ProjectCardProps) {
+  const cardRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -32,12 +51,7 @@ export default function ProjectCard({ id, href, imageSrc, imageAlt, artist, titl
   return (
     <Link href={href} className="project-card" id={id} ref={cardRef}>
       <div className="project-thumbnail">
-        {/* Using native img to preserve the original CSS object-fit and filter styles */}
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          loading="lazy"
-        />
+        <Image src={imageSrc} alt={imageAlt} width={800} height={600} loading="lazy" style={{ objectFit: 'cover' }} />
         <div className="project-overlay"></div>
       </div>
       <div className="project-info">

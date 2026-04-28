@@ -3,8 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 export default function HeroSection() {
-  const titleRef = useRef(null);
-  const indicatorRef = useRef(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     const heroTitle = titleRef.current;
@@ -14,7 +13,7 @@ export default function HeroSection() {
       const scrolled = window.scrollY;
       const rate = scrolled * 0.3;
       heroTitle.style.transform = `translateY(${rate}px)`;
-      heroTitle.style.opacity = Math.max(0, 1 - scrolled / 600);
+      heroTitle.style.opacity = `${Math.max(0, 1 - scrolled / 600)}`;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -41,7 +40,6 @@ export default function HeroSection() {
       <div
         className="hero-scroll-indicator"
         id="scroll-indicator"
-        ref={indicatorRef}
         onClick={scrollToProjects}
         style={{ cursor: 'pointer' }}
       >

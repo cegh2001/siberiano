@@ -1,6 +1,7 @@
+import type { Metadata } from 'next';
 import AboutContent from './AboutContent';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'About — Kirill Groshev',
   description: 'Director of Photography — Biography and Contact',
 };

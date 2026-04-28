@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Inter, Bebas_Neue } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
@@ -18,12 +19,12 @@ const bebasNeue = Bebas_Neue({
   display: 'swap',
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Kirill Groshev',
   description: 'Director of Photography',
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
       <body>

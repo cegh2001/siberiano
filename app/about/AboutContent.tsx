@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export default function AboutContent() {
-  const bioRef = useRef(null);
+  const bioRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const bioParagraphs = bioRef.current?.querySelectorAll('p');
@@ -21,9 +22,9 @@ export default function AboutContent() {
       { threshold: 0.2, rootMargin: '0px 0px -30px 0px' }
     );
 
-    bioParagraphs.forEach((p, i) => {
-      p.style.transitionDelay = `${i * 0.15}s`;
-      bioObserver.observe(p);
+    bioParagraphs.forEach((paragraph, index) => {
+      paragraph.style.transitionDelay = `${index * 0.15}s`;
+      bioObserver.observe(paragraph);
     });
 
     return () => bioObserver.disconnect();
@@ -31,19 +32,19 @@ export default function AboutContent() {
 
   return (
     <>
-      {/* About Hero Image */}
       <section className="about-hero" id="about-hero">
-        <div className="about-hero-image">
-          {/* Using native img for full-bleed hero with CSS object-fit control */}
-          <img
+        <div className="about-hero-image" style={{ position: 'relative' }}>
+          <Image
             src="https://images.unsplash.com/photo-1585399000684-d2f72660f092?w=1200&q=80"
             alt="Kirill Groshev behind the camera"
             id="about-main-image"
+            fill
+            priority
+            style={{ objectFit: 'cover' }}
           />
         </div>
       </section>
 
-      {/* Biography Section */}
       <section className="about-content" id="about-content">
         <h2 className="section-heading" id="biography-heading">
           BIOGRAPHY
@@ -73,7 +74,6 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Contacts Section */}
       <section className="about-contacts" id="about-contacts">
         <div className="contacts-column" id="personal-contacts">
           <h3 className="contacts-heading">PERSONAL CONTACTS</h3>

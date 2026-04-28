@@ -50,15 +50,13 @@ const projects = [
     artist: 'TALK',
     title: "'TV PROMO'",
   },
-];
+] as const;
 
 export default function Home() {
   return (
     <>
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* Projects Section */}
       <section className="projects" id="projects">
         <div className="projects-grid" id="projects-grid">
           {projects.map((project, index) => (

@@ -19,8 +19,8 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && menuOpen) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && menuOpen) {
         setMenuOpen(false);
         document.body.style.overflow = '';
       }
@@ -43,7 +43,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Header / Navigation */}
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
         <Link href="/" className="logo" id="logo">
           <span className="logo-text">GROSHEV</span>
@@ -74,7 +73,6 @@ export default function Header() {
         </button>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <div className={`menu-overlay${menuOpen ? ' open' : ''}`} id="menu-overlay">
         <div className="menu-overlay-content">
           <Link
