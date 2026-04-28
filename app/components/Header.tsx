@@ -29,6 +29,7 @@ export default function Header() {
     let setupFrame = 0;
     let observer: IntersectionObserver | null = null;
     let resizeHandler: (() => void) | null = null;
+    let scrollHandler: (() => void) | null = null;
 
     const setupSectionTracking = () => {
       const sections = ['canciones', 'videos']
@@ -41,7 +42,7 @@ export default function Header() {
       }
 
       const syncActiveSection = () => {
-        const viewportMarker = window.innerHeight * 0.45;
+        const viewportMarker = Math.min(window.innerHeight * 0.4, 180);
         let nextSection = '';
 
         for (const section of sections) {
@@ -57,16 +58,7 @@ export default function Header() {
       };
 
       observer = new IntersectionObserver(
-        (entries) => {
-          const visibleEntries = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((entryA, entryB) => entryB.intersectionRatio - entryA.intersectionRatio);
-
-          if (visibleEntries.length > 0) {
-            setActiveSection(visibleEntries[0].target.id);
-            return;
-          }
-
+        () => {
           syncActiveSection();
         },
         {
@@ -77,8 +69,10 @@ export default function Header() {
 
       sections.forEach((section) => observer?.observe(section));
 
+      scrollHandler = syncActiveSection;
       resizeHandler = syncActiveSection;
       syncActiveSection();
+      window.addEventListener('scroll', scrollHandler, { passive: true });
       window.addEventListener('resize', resizeHandler);
     };
 
@@ -90,6 +84,10 @@ export default function Header() {
       }
 
       observer?.disconnect();
+
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+      }
 
       if (resizeHandler) {
         window.removeEventListener('resize', resizeHandler);
