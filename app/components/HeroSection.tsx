@@ -1,9 +1,26 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const [displayText, setDisplayText] = useState('');
+  const fullText = 'PROYECTO SIBERIANO POR CARLOS GONZALEZ';
+
+  useEffect(() => {
+    // Streaming text animation
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayText(fullText.substring(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const heroTitle = titleRef.current;
@@ -31,11 +48,15 @@ export default function HeroSection() {
     <section className="hero" id="hero">
       <div className="hero-content">
         <h1 className="hero-title" id="hero-title" ref={titleRef}>
-          KIRILL<br />GROSHEV
+          SIBERIANO
         </h1>
         <p className="hero-subtitle" id="hero-subtitle">
-          Director of Photography
+          Producer & Artist
         </p>
+        <div className="streaming-text" id="streaming-text">
+          <span className="streaming-content">{displayText}</span>
+          <span className="streaming-cursor"></span>
+        </div>
       </div>
       <div
         className="hero-scroll-indicator"

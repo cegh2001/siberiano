@@ -1,6 +1,6 @@
 /* =============================================
-   KIRILL GROSHEV — PORTFOLIO STYLES
-   Dark cinematic DP portfolio
+    SIBERIANO — MUSIC PRODUCER PORTFOLIO
+    Dark cinematic music artist & producer portfolio
    ============================================= */
 
 /* === CSS RESET & VARIABLES === */
@@ -130,7 +130,7 @@ button {
 .nav-link {
     font-size: 13px;
     font-weight: 400;
-    text-transform: lowercase;
+    text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-text-muted);
     position: relative;
@@ -235,7 +235,8 @@ button {
 /* === HERO SECTION === */
 .hero {
     position: relative;
-    height: 100vh;
+    height: 75vh;
+    min-height: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -282,6 +283,47 @@ button {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+}
+
+.streaming-text {
+    margin-top: 48px;
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+}
+
+.streaming-content {
+    display: inline-block;
+    min-width: 0;
+    word-break: break-all;
+    max-width: 90vw;
+}
+
+.streaming-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: var(--color-accent);
+    margin-left: 4px;
+    animation: cursorBlink 1s ease-in-out infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
 }
 
 .hero-scroll-indicator {
@@ -552,42 +594,258 @@ button {
     justify-content: space-between;
 }
 
-.footer-nav {
-    display: flex;
-    gap: 24px;
-}
-
-.footer-link {
+.footer-brand,
+.footer-credit {
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-muted);
-    transition: color var(--transition-fast);
 }
 
-.footer-link:hover,
-.footer-link.active {
-    color: var(--color-text);
+.footer-credit {
+    text-align: right;
 }
 
-.footer-link.active {
-    color: var(--color-accent);
-}
-
-.footer-credit a {
+.footer-brand,
+.footer-credit {
     font-size: 11px;
     font-weight: 300;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
-    opacity: 0.6;
-    transition: opacity var(--transition-fast);
+    letter-spacing: 0.08em;
 }
 
-.footer-credit a:hover {
-    opacity: 1;
-    color: var(--color-accent);
+/* === SONGS SECTION === */
+.songs-section {
+    padding: 100px var(--page-padding) 80px;
+    background-color: var(--color-bg);
 }
+
+.section-header {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+
+/* === SONGS SECTION === */
+.songs-section {
+    padding: 100px var(--page-padding) 80px;
+    background-color: var(--color-bg);
+}
+
+.section-header {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+
+.section-title {
+        font-family: var(--font-display);
+        font-size: clamp(48px, 10vw, 80px);
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: var(--color-white);
+        text-transform: uppercase;
+        position: relative;
+        display: inline-block;
+    }
+
+.section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background-color: var(--color-accent);
+    }
+
+.songs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: clamp(20px, 4vw, 40px);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+.song-card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+.song-card:nth-child(1) { animation-delay: 0.1s; }
+.song-card:nth-child(2) { animation-delay: 0.2s; }
+.song-card:nth-child(3) { animation-delay: 0.3s; }
+.song-card:nth-child(4) { animation-delay: 0.4s; }
+.song-card:nth-child(5) { animation-delay: 0.5s; }
+.song-card:nth-child(6) { animation-delay: 0.6s; }
+
+.song-cover {
+        position: relative;
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: 2px;
+        display: block;
+    }
+
+.song-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-medium);
+    }
+
+.song-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity var(--transition-medium);
+    }
+
+.play-icon {
+        font-size: 36px;
+        color: var(--color-accent);
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity var(--transition-medium), transform var(--transition-medium);
+    }
+
+.song-cover:hover img {
+        transform: scale(1.05);
+    }
+
+.song-cover:hover .song-overlay {
+        opacity: 1;
+    }
+
+.song-cover:hover .play-icon {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+.song-title {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        color: var(--color-text);
+        text-transform: uppercase;
+    }
+
+/* === VIDEOS SECTION === */
+.videos-section {
+        padding: 100px var(--page-padding) 120px;
+        background-color: var(--color-bg-alt);
+    }
+
+.videos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: clamp(24px, 4vw, 40px);
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+.video-card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        text-decoration: none;
+    }
+
+.video-card:nth-child(1) { animation-delay: 0.1s; }
+.video-card:nth-child(2) { animation-delay: 0.2s; }
+.video-card:nth-child(3) { animation-delay: 0.3s; }
+.video-card:nth-child(4) { animation-delay: 0.4s; }
+.video-card:nth-child(5) { animation-delay: 0.5s; }
+.video-card:nth-child(6) { animation-delay: 0.6s; }
+
+.video-thumbnail {
+        position: relative;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        border-radius: 2px;
+        display: block;
+    }
+
+.video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity var(--transition-medium);
+    }
+
+.video-preview-gif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity var(--transition-medium);
+    }
+
+.video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity var(--transition-medium);
+    }
+
+.play-button {
+        font-size: 48px;
+        color: var(--color-accent);
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity var(--transition-medium), transform var(--transition-medium);
+    }
+
+.video-thumbnail:hover img {
+        opacity: 0.7;
+    }
+
+.video-thumbnail:hover .video-preview-gif {
+        opacity: 1;
+    }
+
+.video-thumbnail:hover .video-overlay {
+        opacity: 1;
+    }
+
+.video-thumbnail:hover .play-button {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+.video-title {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        color: var(--color-text);
+        text-transform: uppercase;
+    }
 
 /* === ANIMATIONS === */
 @keyframes fadeInUp {
@@ -654,6 +912,15 @@ body::after {
     .projects-grid {
         grid-template-columns: 1fr;
     }
+
+.songs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+.videos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
 
     .about-contacts {
         flex-direction: column;

@@ -45,22 +45,19 @@ export default function Header() {
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
         <Link href="/" className="logo" id="logo">
-          <span className="logo-text">GROSHEV</span>
+          <span className="logo-text">SIBERIANO</span>
         </Link>
         <nav className="nav-links" id="nav-links">
-          <Link
-            href="/"
-            className={`nav-link${pathname === '/' ? ' active' : ''}`}
-            id="nav-narrative"
-          >
-            narrative
-          </Link>
+          <Link href="/#canciones" className="nav-link" id="nav-canciones">CANCIONES</Link>
+          <Link href="/#videos" className="nav-link" id="nav-videos">VIDEOS</Link>
+          <Link href="/1162-underground" className={`nav-link${pathname === '/1162-underground' ? ' active' : ''}`} id="nav-1162">1162 UNDERGROUND</Link>
+          <Link href="/aetherium-mob" className={`nav-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="nav-aetherium">AETHERIUM MOB</Link>
           <Link
             href="/about"
             className={`nav-link${pathname === '/about' ? ' active' : ''}`}
             id="nav-about"
           >
-            about
+            ACERCA DE
           </Link>
         </nav>
         <button
@@ -75,21 +72,17 @@ export default function Header() {
 
       <div className={`menu-overlay${menuOpen ? ' open' : ''}`} id="menu-overlay">
         <div className="menu-overlay-content">
-          <Link
-            href="/"
-            className={`menu-overlay-link${pathname === '/' ? ' active' : ''}`}
-            id="menu-link-narrative"
-            onClick={closeMenu}
-          >
-            NARRATIVE
-          </Link>
+          <Link href="/#canciones" className="menu-overlay-link" id="menu-link-canciones" onClick={closeMenu}>CANCIONES</Link>
+          <Link href="/#videos" className="menu-overlay-link" id="menu-link-videos" onClick={closeMenu}>VIDEOS</Link>
+          <Link href="/1162-underground" className={`menu-overlay-link${pathname === '/1162-underground' ? ' active' : ''}`} id="menu-link-1162" onClick={closeMenu}>1162 UNDERGROUND</Link>
+          <Link href="/aetherium-mob" className={`menu-overlay-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="menu-link-aetherium" onClick={closeMenu}>AETHERIUM MOB</Link>
           <Link
             href="/about"
             className={`menu-overlay-link${pathname === '/about' ? ' active' : ''}`}
             id="menu-link-about"
             onClick={closeMenu}
           >
-            ABOUT
+            ACERCA DE
           </Link>
         </div>
       </div>
