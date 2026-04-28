@@ -20,8 +20,8 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: 'Kirill Groshev',
-  description: 'Director of Photography',
+  title: 'SIBERIANO',
+  description: 'Producer & Artist',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
