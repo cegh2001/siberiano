@@ -17,7 +17,7 @@ export default function Footer() {
         </span>
       </div>
       <div className="footer-credit" id="footer-credit">
-        diseñado por <a href="mailto:cargonzalez0601@gmail.com" className="font-bold">cargonzalez0601@gmail.com</a>
+        diseñado por <a href="mailto:cargonzalez0601@gmail.com" className="footer-credit-link">cargonzalez0601@gmail.com</a>
       </div>
     </footer>
   );

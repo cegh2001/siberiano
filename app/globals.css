@@ -737,6 +737,10 @@ button {
     text-align: right;
 }
 
+.footer-credit-link {
+    font-weight: 700;
+}
+
 .footer-brand,
 .footer-credit {
     font-size: 11px;
