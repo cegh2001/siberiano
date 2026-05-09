@@ -474,6 +474,23 @@ button {
     height: 70vh;
     overflow: hidden;
     position: relative;
+    isolation: isolate;
+}
+
+.about-hero-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(180deg, rgba(10, 10, 10, 0.18) 0%, rgba(10, 10, 10, 0.36) 45%, rgba(10, 10, 10, 0.92) 100%),
+        radial-gradient(circle at top right, rgba(255, 213, 0, 0.12), transparent 38%);
+}
+
+.about-hero-image-frame {
+    position: absolute;
+    inset: 0;
+    animation: aboutImageReveal 0.8s ease;
 }
 
 .about-hero-image img {
@@ -481,7 +498,7 @@ button {
     height: 100%;
     object-fit: cover;
     object-position: center 30%;
-    filter: grayscale(40%) brightness(0.8);
+    filter: grayscale(18%) brightness(0.7);
 }
 
 .about-hero-image::after {
@@ -491,7 +508,51 @@ button {
     left: 0;
     right: 0;
     height: 120px;
+    z-index: 1;
     background: linear-gradient(180deg, transparent, var(--color-bg));
+}
+
+.about-hero-copy {
+    position: absolute;
+    left: clamp(20px, 4vw, 60px);
+    right: clamp(20px, 4vw, 60px);
+    bottom: clamp(28px, 7vw, 72px);
+    z-index: 2;
+    max-width: 760px;
+}
+
+.about-hero-kicker {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 14px;
+}
+
+.about-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 12vw, 140px);
+    line-height: 0.92;
+    letter-spacing: 0.08em;
+    color: var(--color-white);
+}
+
+.about-hero-description {
+    max-width: 620px;
+    margin-top: 18px;
+    font-size: clamp(14px, 1.8vw, 18px);
+    font-weight: 300;
+    color: rgba(232, 232, 232, 0.92);
+}
+
+.about-hero-now {
+    margin-top: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 
 .about-content {
@@ -537,6 +598,23 @@ button {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.bio-text strong {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+@keyframes aboutImageReveal {
+    from {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* === CONTACTS SECTION === */
@@ -1421,6 +1499,14 @@ body::after {
 
     .about-hero-image {
         height: 50vh;
+    }
+
+    .about-hero-title {
+        font-size: clamp(52px, 18vw, 82px);
+    }
+
+    .about-hero-description {
+        max-width: 100%;
     }
 
     .about-content {

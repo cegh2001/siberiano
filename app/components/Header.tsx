@@ -23,7 +23,6 @@ export default function Header() {
 
   useEffect(() => {
     if (pathname !== '/') {
-      setActiveSection('');
       return;
     }
 
@@ -96,6 +95,8 @@ export default function Header() {
     };
   }, [pathname]);
 
+  const visibleActiveSection = pathname === '/' ? activeSection : '';
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && menuOpen) {
@@ -120,18 +121,19 @@ export default function Header() {
   };
 
   const isHome = pathname === '/';
-  const showLogo = !isHome || activeSection !== '';
+  const showLogo = !isHome || visibleActiveSection !== '';
 
   return (
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
         {showLogo && (
           <Link href="/" className="logo" id="logo" aria-label="Siberiano">
-            <span className="logo-mark">
+            <span className="logo-mark" style={{ position: 'relative' }}>
               <Image
                 src="/SIBERIANO.png"
                 alt=""
                 fill
+                loading="eager"
                 sizes="(max-width: 600px) 150px, (max-width: 1200px) 200px, 230px"
                 style={{ objectFit: 'contain' }}
               />
@@ -139,8 +141,8 @@ export default function Header() {
           </Link>
         )}
         <nav className="nav-links" id="nav-links">
-          <Link href="/#canciones" className={`nav-link${pathname === '/' && activeSection === 'canciones' ? ' active' : ''}`} id="nav-canciones">CANCIONES</Link>
-          <Link href="/#videos" className={`nav-link${pathname === '/' && activeSection === 'videos' ? ' active' : ''}`} id="nav-videos">VIDEOS</Link>
+          <Link href="/#canciones" className={`nav-link${pathname === '/' && visibleActiveSection === 'canciones' ? ' active' : ''}`} id="nav-canciones">CANCIONES</Link>
+          <Link href="/#videos" className={`nav-link${pathname === '/' && visibleActiveSection === 'videos' ? ' active' : ''}`} id="nav-videos">VIDEOS</Link>
           <Link href="/1162-underground" className={`nav-link${pathname === '/1162-underground' ? ' active' : ''}`} id="nav-1162">1162 UNDERGROUND</Link>
           <Link href="/aetherium-mob" className={`nav-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="nav-aetherium">AETHERIUM MOB</Link>
           <Link
@@ -163,8 +165,8 @@ export default function Header() {
 
       <div className={`menu-overlay${menuOpen ? ' open' : ''}`} id="menu-overlay">
         <div className="menu-overlay-content">
-          <Link href="/#canciones" className={`menu-overlay-link${pathname === '/' && activeSection === 'canciones' ? ' active' : ''}`} id="menu-link-canciones" onClick={closeMenu}>CANCIONES</Link>
-          <Link href="/#videos" className={`menu-overlay-link${pathname === '/' && activeSection === 'videos' ? ' active' : ''}`} id="menu-link-videos" onClick={closeMenu}>VIDEOS</Link>
+          <Link href="/#canciones" className={`menu-overlay-link${pathname === '/' && visibleActiveSection === 'canciones' ? ' active' : ''}`} id="menu-link-canciones" onClick={closeMenu}>CANCIONES</Link>
+          <Link href="/#videos" className={`menu-overlay-link${pathname === '/' && visibleActiveSection === 'videos' ? ' active' : ''}`} id="menu-link-videos" onClick={closeMenu}>VIDEOS</Link>
           <Link href="/1162-underground" className={`menu-overlay-link${pathname === '/1162-underground' ? ' active' : ''}`} id="menu-link-1162" onClick={closeMenu}>1162 UNDERGROUND</Link>
           <Link href="/aetherium-mob" className={`menu-overlay-link${pathname === '/aetherium-mob' ? ' active' : ''}`} id="menu-link-aetherium" onClick={closeMenu}>AETHERIUM MOB</Link>
           <Link

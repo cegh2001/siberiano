@@ -1,10 +1,60 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
+import { siberianoSongs } from '../data/songs';
+import {
+  hasSiberianoArtistCredit as hasSiberianoVideoArtistCredit,
+  videos,
+} from '../data/videos';
+
+type AboutMediaItem = {
+  src: string;
+  alt: string;
+  eyebrow: string;
+  title: string;
+  meta: string;
+};
+
+const aboutMediaItems: AboutMediaItem[] = [
+  ...siberianoSongs.map((song) => ({
+    src: song.albumCover,
+    alt: `Portada de ${song.title} por ${song.artist}`,
+    eyebrow: 'Portada',
+    title: song.title,
+    meta: song.date || 'Catalogo de Siberiano',
+  })),
+  ...videos
+    .filter((video) => hasSiberianoVideoArtistCredit(video.artist))
+    .flatMap((video) =>
+      video.media.map((src, index) => ({
+        src,
+        alt: `Visual ${index + 1} de ${video.fullTitle}`,
+        eyebrow: 'Visual',
+        title: video.title,
+        meta: video.date,
+      }))
+    ),
+];
+
+function getRandomIndex(length: number, currentIndex?: number) {
+  if (length <= 1) return 0;
+
+  let nextIndex = Math.floor(Math.random() * length);
+
+  while (nextIndex === currentIndex) {
+    nextIndex = Math.floor(Math.random() * length);
+  }
+
+  return nextIndex;
+}
 
 export default function AboutContent() {
   const bioRef = useRef<HTMLDivElement | null>(null);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+
+  const currentMedia = aboutMediaItems[currentMediaIndex] ?? aboutMediaItems[0];
 
   useEffect(() => {
     const bioParagraphs = bioRef.current?.querySelectorAll('p');
@@ -30,88 +80,148 @@ export default function AboutContent() {
     return () => bioObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (aboutMediaItems.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const rotationInterval = window.setInterval(() => {
+      setCurrentMediaIndex((currentIndex) =>
+        getRandomIndex(aboutMediaItems.length, currentIndex)
+      );
+    }, 4200);
+
+    return () => window.clearInterval(rotationInterval);
+  }, []);
+
   return (
     <>
       <section className="about-hero" id="about-hero">
         <div className="about-hero-image" style={{ position: 'relative' }}>
-          <Image
-            src="https://images.unsplash.com/photo-1585399000684-d2f72660f092?w=1200&q=80"
-            alt="Carlos Gonzalez en el estudio"
-            id="about-main-image"
-            fill
-            priority
-            style={{ objectFit: 'cover' }}
-          />
+          <div
+            className="about-hero-image-frame"
+            key={currentMedia.src}
+            style={{ position: 'absolute', inset: 0 }}
+          >
+            <Image
+              src={currentMedia.src}
+              alt={currentMedia.alt}
+              id="about-main-image"
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <div className="about-hero-copy">
+            <p className="about-hero-kicker">La Guaira · 1162 · Hip hop venezolano</p>
+            <h1 className="about-hero-title">SIBERIANO</h1>
+            <p className="about-hero-description">
+              Una mirada a la trayectoria, la vision y el sonido con los que
+              Siberiano empuja el underground desde La Guaira.
+            </p>
+            <p className="about-hero-now" aria-live="polite">
+              En foco: {currentMedia.eyebrow} · {currentMedia.title} · {currentMedia.meta}
+            </p>
+          </div>
         </div>
       </section>
 
       <section className="about-content" id="about-content">
         <h2 className="section-heading" id="biography-heading">
-          BIOGRAPHY
+          BIOGRAFIA
         </h2>
         <div className="bio-text" id="bio-text" ref={bioRef}>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Siberiano es productor, artista y exponente del hip hop emergente en
+            Venezuela, con raices profundamente ancladas en La Guaira. En su obra
+            aparecen de forma recurrente el Centro Norte, la costa y la identidad
+            1162 como coordenadas culturales que atraviesan tanto sus letras como
+            su forma de construir atmosfera.
           </p>
           <p>
-            Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam.
+            Como parte de Aetherium Mob Records, ha empujado una vision independiente
+            del rap venezolano que junta crudeza, concepto y estetica. Ese trabajo en
+            colectivo dialoga con una idea de retrofuturismo: barras con peso de vieja
+            escuela, produccion oscura y una presentacion moderna que no suelta la calle.
           </p>
           <p>
-            Maecenas id malesuada ante, nec volutpat tellus. Phasellus sed tristique nisi. Morbi accumsan a mi eget condimentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla pulvinar diam ut hendrerit accumsan. Suspendisse sagittis mauris in arcu bibendum, efficitur commodo neque sodales.
+            Su escritura se mueve entre lo introspectivo, lo filosofico y lo contestatario.
+            Hay orgullo costero, homenaje a referentes del rap venezolano y tambien una
+            mirada frontal sobre el entorno: las fracturas sociales, la memoria de su gente
+            y las batallas internas que atraviesan al individuo.
+          </p>
+          <p>
+            <strong>Aetherium Mob y colaboraciones:</strong> Siberiano ha sido una pieza
+            importante en lanzamientos como <strong>Retrofuturista</strong> junto a Jigsaw Mc,
+            en temas como <strong>Genetica</strong> con Amerika Braun y en procesos creativos que
+            lo conectan con nombres como HADES. Ese doble rol de productor y letrista hace
+            que su firma se sienta incluso cuando la cancion no depende solo de su voz.
+          </p>
+          <p>
+            <strong>Directo desde el Centro Norte y etapa reciente:</strong> trabajos como
+            <strong> Directo desde el Centro Norte</strong>, <strong>Genetica</strong> y
+            <strong> Torre de Babel</strong> consolidan una linea artistica cada vez mas clara:
+            rap denso, identidad territorial marcada y una busqueda constante por expandir el
+            underground guaireno. Su presencia tambien se cruza con el circuito cultural de
+            <strong> 1162 Underground</strong>, reforzando su papel dentro de la escena que
+            documenta y representa.
           </p>
         </div>
       </section>
 
       <section className="about-contacts" id="about-contacts">
         <div className="contacts-column" id="personal-contacts">
-          <h3 className="contacts-heading">PERSONAL CONTACTS</h3>
+          <h3 className="contacts-heading">OBRA</h3>
           <div className="contacts-list">
+            <Link
+              href="/#songs"
+              className="contact-link"
+              id="contact-songs"
+            >
+              DISCOGRAFIA
+            </Link>
+            <Link
+              href="/#videos"
+              className="contact-link"
+              id="contact-videos"
+            >
+              VISUALES
+            </Link>
             <a
-              href="https://vimeo.com/kirillgroshev"
+              href="https://www.youtube.com/@Siberianolg"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-link"
-              id="contact-vimeo"
+              id="contact-youtube"
             >
-              VIMEO
-            </a>
-            <a
-              href="https://www.instagram.com/kirill.groshev/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-link"
-              id="contact-instagram"
-            >
-              INSTAGRAM
-            </a>
-            <a
-              href="mailto:dpkirillgroshev@gmail.com"
-              className="contact-link"
-              id="contact-email"
-            >
-              EMAIL
+              YOUTUBE
             </a>
           </div>
         </div>
         <div className="contacts-column" id="agency-contacts">
-          <h3 className="contacts-heading">AGENCY</h3>
+          <h3 className="contacts-heading">ENTORNO</h3>
           <div className="contacts-list">
             <a
-              href="https://www.mymanagement.co.uk"
+              href="https://www.youtube.com/@AetheriumMob"
               target="_blank"
               rel="noopener noreferrer"
               className="contact-link"
-              id="contact-agency"
+              id="contact-aetherium-youtube"
             >
-              MY MANAGEMENT
+              AETHERIUM MOB
             </a>
             <a
-              href="mailto:zoe@mymanagement.co.uk"
+              href="https://www.instagram.com/aetheriummobrecords/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact-link"
-              id="contact-agency-email"
+              id="contact-aetherium-instagram"
             >
-              EMAIL
+              AETHERIUM MOB RECORDS
             </a>
+            <Link href="/1162-underground" className="contact-link" id="contact-1162-underground">
+              1162 UNDERGROUND
+            </Link>
           </div>
         </div>
       </section>

@@ -89,12 +89,12 @@ export default function HeroSection() {
             transition: 'opacity 1.2s ease, transform 1s ease'
           }}
         >
-          <span className="hero-logo-mark">
+          <span className="hero-logo-mark" style={{ position: 'absolute', inset: 0 }}>
             <Image
               src="/SIBERIANO.png"
               alt=""
               fill
-              priority
+              loading="eager"
               sizes="(max-width: 600px) 80vw, (max-width: 1200px) 70vw, 980px"
               style={{ objectFit: 'contain' }}
             />

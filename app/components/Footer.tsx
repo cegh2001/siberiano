@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="footer" id="footer">
       <div className="footer-brand" id="footer-brand" aria-label="Siberiano">
-        <span className="footer-brand-mark">
+        <span className="footer-brand-mark" style={{ position: 'relative' }}>
           <Image
             src="/SIBERIANO.png"
             alt=""
