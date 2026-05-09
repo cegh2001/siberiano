@@ -557,7 +557,12 @@ button {
 
 .about-content {
     padding: 60px var(--page-padding) 80px;
-    max-width: 800px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
 }
 
 .section-heading {
@@ -566,7 +571,7 @@ button {
     font-weight: 400;
     letter-spacing: 0.1em;
     color: var(--color-accent);
-    margin-bottom: 32px;
+    margin-bottom: 0;
     position: relative;
 }
 
@@ -584,12 +589,19 @@ button {
     width: 80px;
 }
 
+.bio-text {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px clamp(32px, 4vw, 64px);
+    align-items: start;
+}
+
 .bio-text p {
     font-size: clamp(14px, 1.2vw, 16px);
     font-weight: 300;
     line-height: 1.8;
     color: var(--color-text);
-    margin-bottom: 20px;
+    margin-bottom: 0;
     opacity: 0;
     transform: translateY(20px);
 }
@@ -619,10 +631,13 @@ button {
 
 /* === CONTACTS SECTION === */
 .about-contacts {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(40px, 8vw, 120px);
     padding: 0 var(--page-padding) 100px;
-    max-width: 800px;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .contacts-column {
@@ -1450,8 +1465,21 @@ body::after {
         grid-template-columns: 1fr;
     }
 
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .section-heading {
+        margin-bottom: 32px;
+    }
+
+    .bio-text {
+        grid-template-columns: 1fr;
+    }
+
     .about-contacts {
-        flex-direction: column;
+        grid-template-columns: 1fr;
         gap: 40px;
     }
 

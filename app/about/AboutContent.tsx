@@ -123,7 +123,7 @@ export default function AboutContent() {
               Siberiano empuja el underground desde La Guaira.
             </p>
             <p className="about-hero-now" aria-live="polite">
-              En foco: {currentMedia.eyebrow} · {currentMedia.title} · {currentMedia.meta}
+              En foco: {currentMedia.title} · {currentMedia.meta}
             </p>
           </div>
         </div>
