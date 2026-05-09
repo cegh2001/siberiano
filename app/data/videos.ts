@@ -101,9 +101,9 @@ export const videos: VideoData[] = [
     fullTitle: 'RETROFUTURISTA — AETHERIUM MOB (Visualizer)',
     date: 'Marzo de 2024',
     dateISO: '2024-03-08',
-    youtubeId: '',
-    youtubeUrl: '',
-    youtubeThumbnail: '',
+    youtubeId: 'r4sOF8kHbHE',
+    youtubeUrl: 'https://www.youtube.com/watch?v=r4sOF8kHbHE',
+    youtubeThumbnail: 'https://img.youtube.com/vi/r4sOF8kHbHE/maxresdefault.jpg',
     media: ['/VIDEOS/RETROFUTURISTA.png'],
   },
 ];
