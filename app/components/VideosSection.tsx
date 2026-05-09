@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { hasSiberianoArtistCredit, videos } from '@/app/data/videos';
-import { useCarouselScroll } from './useCarouselScroll';
+import { useCarouselScroll } from '@/app/hooks/useCarouselScroll';
 
 export default function VideosSection() {
   const { viewportRef, trackRef, scroll, trackStyle, canScrollLeft, canScrollRight } = useCarouselScroll(videos.length);

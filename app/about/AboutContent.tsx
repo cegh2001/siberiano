@@ -4,10 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { siberianoSongs } from '../data/songs';
-import {
-  hasSiberianoArtistCredit as hasSiberianoVideoArtistCredit,
-  videos,
-} from '../data/videos';
 
 type AboutMediaItem = {
   src: string;
@@ -25,33 +21,27 @@ const aboutMediaItems: AboutMediaItem[] = [
     title: song.title,
     meta: song.date || 'Catalogo de Siberiano',
   })),
-  ...videos
-    .filter((video) => hasSiberianoVideoArtistCredit(video.artist))
-    .flatMap((video) =>
-      video.media.map((src, index) => ({
-        src,
-        alt: `Visual ${index + 1} de ${video.fullTitle}`,
-        eyebrow: 'Visual',
-        title: video.title,
-        meta: video.date,
-      }))
-    ),
 ];
 
-function getRandomIndex(length: number, currentIndex?: number) {
-  if (length <= 1) return 0;
+const ABOUT_HERO_ROTATION_DELAY_MS = 7000;
 
-  let nextIndex = Math.floor(Math.random() * length);
+function buildShuffledSequence(length: number, startIndex: number) {
+  const indices = Array.from({ length }, (_, index) => index).filter(
+    (index) => index !== startIndex
+  );
 
-  while (nextIndex === currentIndex) {
-    nextIndex = Math.floor(Math.random() * length);
+  for (let index = indices.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [indices[index], indices[randomIndex]] = [indices[randomIndex], indices[index]];
   }
 
-  return nextIndex;
+  return [startIndex, ...indices];
 }
 
 export default function AboutContent() {
   const bioRef = useRef<HTMLDivElement | null>(null);
+  const rotationSequenceRef = useRef<number[]>([]);
+  const rotationStepRef = useRef(0);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
   const currentMedia = aboutMediaItems[currentMediaIndex] ?? aboutMediaItems[0];
@@ -82,13 +72,26 @@ export default function AboutContent() {
 
   useEffect(() => {
     if (aboutMediaItems.length < 2) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    rotationSequenceRef.current = buildShuffledSequence(aboutMediaItems.length, 0);
+    rotationStepRef.current = 0;
 
     const rotationInterval = window.setInterval(() => {
-      setCurrentMediaIndex((currentIndex) =>
-        getRandomIndex(aboutMediaItems.length, currentIndex)
-      );
-    }, 4200);
+      const currentSequence = rotationSequenceRef.current;
+      let nextStep = rotationStepRef.current + 1;
+
+      if (nextStep >= currentSequence.length) {
+        const lastMediaIndex = currentSequence[currentSequence.length - 1] ?? 0;
+        rotationSequenceRef.current = buildShuffledSequence(
+          aboutMediaItems.length,
+          lastMediaIndex
+        );
+        nextStep = 1;
+      }
+
+      rotationStepRef.current = nextStep;
+      setCurrentMediaIndex(rotationSequenceRef.current[nextStep] ?? 0);
+    }, ABOUT_HERO_ROTATION_DELAY_MS);
 
     return () => window.clearInterval(rotationInterval);
   }, []);

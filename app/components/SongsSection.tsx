@@ -1,7 +1,7 @@
 'use client';
 
 import { hasSiberianoArtistCredit, publishedSongs } from '@/app/data/songs';
-import { useCarouselScroll } from './useCarouselScroll';
+import { useCarouselScroll } from '@/app/hooks/useCarouselScroll';
 
 export default function SongsSection() {
   const { viewportRef, trackRef, scroll, trackStyle, canScrollLeft, canScrollRight } = useCarouselScroll(publishedSongs.length);
