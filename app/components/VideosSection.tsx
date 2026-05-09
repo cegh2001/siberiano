@@ -1,20 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
 import Link from 'next/link';
 import { hasSiberianoArtistCredit, videos } from '@/app/data/videos';
+import { useCarouselScroll } from './useCarouselScroll';
 
 export default function VideosSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    const scrollAmount = scrollRef.current.clientWidth * 0.8;
-    scrollRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
+  const { viewportRef, trackRef, scroll, trackStyle, canScrollLeft, canScrollRight } = useCarouselScroll(videos.length);
 
   return (
     <section className="videos-section" id="videos">
@@ -27,13 +18,15 @@ export default function VideosSection() {
           className="carousel-arrow carousel-arrow-left"
           onClick={() => scroll('left')}
           aria-label="Anterior"
+          disabled={!canScrollLeft}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
 
-        <div className="carousel-track" ref={scrollRef}>
+        <div className="carousel-viewport" ref={viewportRef}>
+          <div className="carousel-track" ref={trackRef} style={trackStyle}>
           {videos.map((video) => (
             <div key={video.slug} className="carousel-card">
               <div className="carousel-thumbnail">
@@ -88,12 +81,14 @@ export default function VideosSection() {
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         <button
           className="carousel-arrow carousel-arrow-right"
           onClick={() => scroll('right')}
           aria-label="Siguiente"
+          disabled={!canScrollRight}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 18l6-6-6-6" />

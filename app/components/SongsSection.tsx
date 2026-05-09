@@ -1,19 +1,10 @@
 'use client';
 
-import { useRef } from 'react';
 import { hasSiberianoArtistCredit, publishedSongs } from '@/app/data/songs';
+import { useCarouselScroll } from './useCarouselScroll';
 
 export default function SongsSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    const scrollAmount = scrollRef.current.clientWidth * 0.8;
-    scrollRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
+  const { viewportRef, trackRef, scroll, trackStyle, canScrollLeft, canScrollRight } = useCarouselScroll(publishedSongs.length);
 
   return (
     <section className="songs-section" id="canciones">
@@ -26,13 +17,15 @@ export default function SongsSection() {
           className="carousel-arrow carousel-arrow-left"
           onClick={() => scroll('left')}
           aria-label="Anterior"
+          disabled={!canScrollLeft}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
 
-        <div className="carousel-track" ref={scrollRef}>
+        <div className="carousel-viewport" ref={viewportRef}>
+          <div className="carousel-track" ref={trackRef} style={trackStyle}>
           {publishedSongs.map((song) => (
             <div key={song.slug} className="carousel-card song-carousel-card">
               {(() => {
@@ -89,12 +82,14 @@ export default function SongsSection() {
               })()}
             </div>
           ))}
+          </div>
         </div>
 
         <button
           className="carousel-arrow carousel-arrow-right"
           onClick={() => scroll('right')}
           aria-label="Siguiente"
+          disabled={!canScrollRight}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 18l6-6-6-6" />
