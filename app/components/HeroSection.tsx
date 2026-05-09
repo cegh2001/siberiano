@@ -22,7 +22,7 @@ export default function HeroSection() {
         // Phase 1: show SIBERIANO & POR CARLOS GONZALEZ
         setTimeout(() => setPhase(1), 300);
         
-        // Phase 2: Fade out PROYECTO and change subtitle to PRODUCER & ARTIST
+        // Phase 2: Fade out PROYECTO and change subtitle to Productor/Artista
         setTimeout(() => setPhase(2), 3500);
       }
     }, 150);
@@ -101,7 +101,7 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        {/* BOTTOM: POR CARLOS GONZALEZ -> PRODUCER & ARTIST */}
+        {/* BOTTOM: POR CARLOS GONZALEZ -> Productor/Artista */}
         <div style={{ position: 'relative', height: '30px', marginTop: '24px', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <p 
             className="hero-subtitle" 
@@ -127,7 +127,7 @@ export default function HeroSection() {
               transition: 'opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s'
             }}
           >
-            PRODUCER &amp; ARTIST
+            Productor/Artista
           </p>
         </div>
 

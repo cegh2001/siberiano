@@ -629,6 +629,17 @@ button {
     color: var(--color-text-muted);
 }
 
+.footer-brand-mark {
+    position: relative;
+    display: block;
+    width: clamp(120px, 14vw, 180px);
+    aspect-ratio: 2048 / 809;
+}
+
+.footer-brand-mark img {
+    object-position: left center;
+}
+
 .footer-credit {
     text-align: right;
 }
@@ -1387,6 +1398,10 @@ body::after {
 @media (max-width: 600px) {
     :root {
         --header-height: 60px;
+    }
+
+    .footer-brand-mark {
+        width: clamp(110px, 40vw, 150px);
     }
 
     .hero-title {

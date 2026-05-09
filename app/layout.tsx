@@ -21,7 +21,7 @@ const bebasNeue = Bebas_Neue({
 
 export const metadata: Metadata = {
   title: 'SIBERIANO',
-  description: 'Producer & Artist',
+  description: 'Productor/Artista',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
