@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
@@ -80,6 +81,7 @@ export default function HeroSection() {
           className="hero-title" 
           id="hero-title" 
           ref={titleRef}
+          aria-label="Siberiano"
           style={{
             animation: 'none',
             opacity: phase >= 1 ? 1 : 0,
@@ -87,7 +89,16 @@ export default function HeroSection() {
             transition: 'opacity 1.2s ease, transform 1s ease'
           }}
         >
-          SIBERIANO
+          <span className="hero-logo-mark">
+            <Image
+              src="/SIBERIANO.png"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 600px) 80vw, (max-width: 1200px) 70vw, 980px"
+              style={{ objectFit: 'contain' }}
+            />
+          </span>
         </h1>
 
         {/* BOTTOM: POR CARLOS GONZALEZ -> PRODUCER & ARTIST */}

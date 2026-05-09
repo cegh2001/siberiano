@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -125,8 +126,16 @@ export default function Header() {
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
         {showLogo && (
-          <Link href="/" className="logo" id="logo">
-            <span className="logo-text">SIBERIANO</span>
+          <Link href="/" className="logo" id="logo" aria-label="Siberiano">
+            <span className="logo-mark">
+              <Image
+                src="/SIBERIANO.png"
+                alt=""
+                fill
+                sizes="(max-width: 600px) 150px, (max-width: 1200px) 200px, 230px"
+                style={{ objectFit: 'contain' }}
+              />
+            </span>
           </Link>
         )}
         <nav className="nav-links" id="nav-links">
