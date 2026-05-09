@@ -9,8 +9,8 @@
     --color-bg-alt: #111111;
     --color-text: #e8e8e8;
     --color-text-muted: #888888;
-    --color-accent: #e84b1c;
-    --color-accent-hover: #ff5a2b;
+    --color-accent: #ffd500;
+    --color-accent-hover: #ffe44d;
     --color-white: #ffffff;
     --color-border: rgba(255, 255, 255, 0.08);
 
@@ -78,7 +78,7 @@ button {
     z-index: 100;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 var(--page-padding);
     height: var(--header-height);
     background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0) 100%);
@@ -95,7 +95,8 @@ button {
 .logo {
     display: inline-flex;
     align-items: center;
-    position: relative;
+    position: absolute;
+    left: var(--page-padding);
     z-index: 101;
 }
 
@@ -162,6 +163,8 @@ button {
 /* === MENU TOGGLE === */
 .menu-toggle {
     display: none;
+    position: absolute;
+    right: var(--page-padding);
     font-size: 13px;
     font-weight: 500;
     color: var(--color-accent);
@@ -252,7 +255,7 @@ button {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at center, rgba(232, 75, 28, 0.04) 0%, transparent 60%);
+    background: radial-gradient(ellipse at center, rgba(255, 213, 0, 0.04) 0%, transparent 60%);
     pointer-events: none;
 }
 
@@ -897,7 +900,7 @@ body::after {
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(232, 75, 28, 0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 213, 0, 0.06) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
     transform: translate(-50%, -50%);
@@ -993,12 +996,12 @@ body {
 
 /* === SELECTION COLOR === */
 ::selection {
-    background: rgba(232, 75, 28, 0.3);
+    background: rgba(255, 213, 0, 0.3);
     color: var(--color-white);
 }
 
 ::-moz-selection {
-    background: rgba(232, 75, 28, 0.3);
+    background: rgba(255, 213, 0, 0.3);
     color: var(--color-white);
 }
 

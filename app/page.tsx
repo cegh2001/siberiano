@@ -4,25 +4,25 @@ const songs = [
   {
     id: 'song-1',
     title: 'First Track',
-    cover: 'https://placehold.co/500x500/111/e84b1c?text=TRACK',
+    cover: 'https://placehold.co/500x500/111/ffd500?text=TRACK',
     audioSrc: '#',
   },
   {
     id: 'song-2',
     title: 'Second Track',
-    cover: 'https://placehold.co/500x500/111/e84b1c?text=TRACK',
+    cover: 'https://placehold.co/500x500/111/ffd500?text=TRACK',
     audioSrc: '#',
   },
   {
     id: 'song-3',
     title: 'Third Track',
-    cover: 'https://placehold.co/500x500/111/e84b1c?text=TRACK',
+    cover: 'https://placehold.co/500x500/111/ffd500?text=TRACK',
     audioSrc: '#',
   },
   {
     id: 'song-4',
     title: 'Fourth Track',
-    cover: 'https://placehold.co/500x500/111/e84b1c?text=TRACK',
+    cover: 'https://placehold.co/500x500/111/ffd500?text=TRACK',
     audioSrc: '#',
   },
 ] as const;
@@ -31,23 +31,23 @@ const videos = [
   {
     id: 'video-1',
     title: 'First Video',
-    thumbnail: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
     videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
   },
   {
     id: 'video-2',
     title: 'Second Video',
-    thumbnail: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
     videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
   },
   {
     id: 'video-3',
     title: 'Third Video',
-    thumbnail: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
     videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/e84b1c?text=VIDEO',
+    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
   },
 ] as const;
 

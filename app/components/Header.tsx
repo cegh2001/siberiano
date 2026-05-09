@@ -118,12 +118,16 @@ export default function Header() {
     document.body.style.overflow = '';
   };
 
+  const isHome = pathname === '/';
+
   return (
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
-        <Link href="/" className="logo" id="logo">
-          <span className="logo-text">SIBERIANO</span>
-        </Link>
+        {!isHome && (
+          <Link href="/" className="logo" id="logo">
+            <span className="logo-text">SIBERIANO</span>
+          </Link>
+        )}
         <nav className="nav-links" id="nav-links">
           <Link href="/#canciones" className={`nav-link${pathname === '/' && activeSection === 'canciones' ? ' active' : ''}`} id="nav-canciones">CANCIONES</Link>
           <Link href="/#videos" className={`nav-link${pathname === '/' && activeSection === 'videos' ? ' active' : ''}`} id="nav-videos">VIDEOS</Link>
