@@ -1,4 +1,5 @@
 import HeroSection from './components/HeroSection';
+import VideosSection from './components/VideosSection';
 
 const songs = [
   {
@@ -24,30 +25,6 @@ const songs = [
     title: 'Fourth Track',
     cover: 'https://placehold.co/500x500/111/ffd500?text=TRACK',
     audioSrc: '#',
-  },
-] as const;
-
-const videos = [
-  {
-    id: 'video-1',
-    title: 'First Video',
-    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
-    videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
-  },
-  {
-    id: 'video-2',
-    title: 'Second Video',
-    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
-    videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
-  },
-  {
-    id: 'video-3',
-    title: 'Third Video',
-    thumbnail: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
-    videoSrc: '#',
-    gifPreview: 'https://placehold.co/600x400/111/ffd500?text=VIDEO',
   },
 ] as const;
 
@@ -79,31 +56,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="videos-section" id="videos">
-        <div className="section-header">
-          <h2 className="section-title">VIDEOS</h2>
-        </div>
-        <div className="videos-grid" id="videos-grid">
-          {videos.map((video) => (
-            <a key={video.id} href={video.videoSrc} className="video-card" id={video.id}>
-              <div className="video-thumbnail">
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.title}
-                  style={{ objectFit: 'cover' }}
-                />
-                <div className="video-preview-gif" style={{
-                  backgroundImage: `url('${video.gifPreview}')`
-                }}></div>
-                <div className="video-overlay">
-                  <span className="play-button">▶</span>
-                </div>
-              </div>
-              <h3 className="video-title">{video.title}</h3>
-            </a>
-          ))}
-        </div>
-      </section>
+      <VideosSection />
     </>
   );
 }

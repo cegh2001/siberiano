@@ -7,7 +7,7 @@ export default function Footer() {
         siberiano
       </div>
       <div className="footer-credit" id="footer-credit">
-        diseñado por Carlos Gonzalez
+        diseñado por Carlos Gonzalez &mdash; cargonzalez0601@gmail.com
       </div>
     </footer>
   );

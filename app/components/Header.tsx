@@ -119,11 +119,12 @@ export default function Header() {
   };
 
   const isHome = pathname === '/';
+  const showLogo = !isHome || activeSection !== '';
 
   return (
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
-        {!isHome && (
+        {showLogo && (
           <Link href="/" className="logo" id="logo">
             <span className="logo-text">SIBERIANO</span>
           </Link>
