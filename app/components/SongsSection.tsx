@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { publishedSongs } from '@/app/data/songs';
+import { hasSiberianoArtistCredit, publishedSongs } from '@/app/data/songs';
 
 export default function SongsSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,6 +35,11 @@ export default function SongsSection() {
         <div className="carousel-track" ref={scrollRef}>
           {publishedSongs.map((song) => (
             <div key={song.slug} className="carousel-card song-carousel-card">
+              {(() => {
+                const showProdBadge = !hasSiberianoArtistCredit(song.artist);
+
+                return (
+                  <>
               {song.url ? (
                 <a
                   href={song.url}
@@ -51,9 +56,6 @@ export default function SongsSection() {
                     <div className="carousel-overlay">
                       <span className="carousel-play-icon">▶</span>
                     </div>
-                    <span className="song-platform-badge">
-                      {song.platform === 'spotify' ? 'SPOTIFY' : 'YOUTUBE'}
-                    </span>
                   </div>
                 </a>
               ) : (
@@ -74,7 +76,17 @@ export default function SongsSection() {
               <div className="carousel-info">
                 <span className="carousel-title">{song.title}</span>
                 <span className="carousel-artist">{song.artist}</span>
+                <div className="media-badges-row">
+                  <span className="media-badge media-badge-platform">
+                    {song.platform === 'spotify' ? 'SPOTIFY' : 'YOUTUBE'}
+                  </span>
+                  {showProdBadge && <span className="media-badge media-badge-secondary">PROD</span>}
+                </div>
+                <span className="carousel-date">{song.date}</span>
               </div>
+                  </>
+                );
+              })()}
             </div>
           ))}
         </div>

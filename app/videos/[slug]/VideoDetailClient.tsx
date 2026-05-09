@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import type { VideoData } from '@/app/data/videos';
+import { hasSiberianoArtistCredit, type VideoData } from '@/app/data/videos';
 
 export default function VideoDetailClient({ video }: { video: VideoData }) {
   const [showVideo, setShowVideo] = useState(false);
@@ -56,14 +56,19 @@ export default function VideoDetailClient({ video }: { video: VideoData }) {
           </div>
           <div className="video-info-actions">
             {video.youtubeUrl && (
-              <a
-                href={video.youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-action-link"
-              >
-                YOUTUBE ↗
-              </a>
+              <div className="video-action-badges">
+                <a
+                  href={video.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="video-action-link"
+                >
+                  YOUTUBE ↗
+                </a>
+                {!hasSiberianoArtistCredit(video.artist) && (
+                  <span className="media-badge media-badge-secondary">PROD</span>
+                )}
+              </div>
             )}
             <Link href="/#videos" className="video-action-link">
               VOLVER

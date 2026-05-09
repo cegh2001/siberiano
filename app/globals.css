@@ -703,6 +703,37 @@ button {
     filter: grayscale(0%) brightness(1);
 }
 
+.media-badges-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.media-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 999px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.media-badge-platform {
+    background: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.media-badge-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--color-text);
+}
+
 .song-platform-badge {
     position: absolute;
     top: 10px;
@@ -924,6 +955,13 @@ button {
     color: var(--color-text-muted);
 }
 
+.carousel-date {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: rgba(232, 232, 232, 0.72);
+}
+
 /* === VIDEO DETAIL PAGE === */
 .video-detail {
     padding-top: var(--header-height);
@@ -987,6 +1025,13 @@ button {
     justify-content: center;
     transition: transform var(--transition-medium), background var(--transition-fast);
     box-shadow: 0 0 40px rgba(255, 213, 0, 0.25);
+}
+
+.video-action-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .video-play-btn:hover {

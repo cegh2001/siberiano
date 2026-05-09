@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import { videos } from '@/app/data/videos';
+import { hasSiberianoArtistCredit, videos } from '@/app/data/videos';
 
 export default function VideosSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -78,6 +78,13 @@ export default function VideosSection() {
                   {video.title}
                 </Link>
                 <span className="carousel-artist">{video.artist}</span>
+                <div className="media-badges-row">
+                  <span className="media-badge media-badge-platform">YOUTUBE</span>
+                  {!hasSiberianoArtistCredit(video.artist) && (
+                    <span className="media-badge media-badge-secondary">PROD</span>
+                  )}
+                </div>
+                <span className="carousel-date">{video.date}</span>
               </div>
             </div>
           ))}

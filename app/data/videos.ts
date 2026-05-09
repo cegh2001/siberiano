@@ -12,6 +12,10 @@ export interface VideoData {
   description?: string;
 }
 
+export function hasSiberianoArtistCredit(artist: string): boolean {
+  return artist.toLowerCase().includes('siberiano');
+}
+
 export const videos: VideoData[] = [
   {
     slug: 'ego-hades',
