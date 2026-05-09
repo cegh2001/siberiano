@@ -114,7 +114,7 @@ export default function HeroSection() {
               transition: 'opacity 0.8s ease, transform 0.8s ease'
             }}
           >
-            POR CARLOS GONZALEZ
+            DISEÑADO POR CARLOS GONZALEZ
           </p>
           <p 
             className="hero-subtitle" 
