@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { hasSiberianoArtistCredit, publishedSongs } from '@/app/data/songs';
 import { useCarouselScroll } from '@/app/hooks/useCarouselScroll';
 
@@ -41,10 +42,12 @@ export default function SongsSection() {
                   className="carousel-thumb-link song-thumb-link"
                 >
                   <div className="carousel-thumbnail song-thumbnail">
-                    <img
+                    <Image
                       src={song.albumCover}
                       alt={`${song.title} — ${song.artist}`}
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 35vw, 420px"
+                      className="carousel-media"
                     />
                     <div className="carousel-overlay">
                       <span className="carousel-play-icon">▶</span>
@@ -54,10 +57,12 @@ export default function SongsSection() {
               ) : (
                 <div className="carousel-thumb-link song-thumb-link">
                   <div className="carousel-thumbnail song-thumbnail">
-                    <img
+                    <Image
                       src={song.albumCover}
                       alt={`${song.title} — ${song.artist}`}
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 35vw, 420px"
+                      className="carousel-media"
                     />
                     <span className="song-platform-badge song-platform-pending">
                       PRÓXIMAMENTE

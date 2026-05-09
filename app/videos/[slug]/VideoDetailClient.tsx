@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { hasSiberianoArtistCredit, type VideoData } from '@/app/data/videos';
 
@@ -23,9 +24,11 @@ export default function VideoDetailClient({ video }: { video: VideoData }) {
               />
             ) : (
               <>
-                <img
+                <Image
                   src={video.youtubeThumbnail || video.media[0]}
                   alt={video.fullTitle}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
                   className="video-poster"
                 />
                 {video.youtubeUrl && (
@@ -113,7 +116,13 @@ export default function VideoDetailClient({ video }: { video: VideoData }) {
           <div className="video-gallery-grid">
             {video.media.map((src, i) => (
               <div key={i} className="video-gallery-item">
-                <img src={src} alt={`${video.title} — ${i + 1}`} loading="lazy" />
+                <Image
+                  src={src}
+                  alt={`${video.title} — ${i + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="video-gallery-image"
+                />
               </div>
             ))}
           </div>

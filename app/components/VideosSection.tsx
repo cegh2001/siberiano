@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { hasSiberianoArtistCredit, videos } from '@/app/data/videos';
 import { useCarouselScroll } from '@/app/hooks/useCarouselScroll';
@@ -38,10 +39,12 @@ export default function VideosSection() {
                     rel="noopener noreferrer"
                     className="carousel-thumb-link"
                   >
-                    <img
+                    <Image
                       src={video.youtubeThumbnail || video.media[0]}
                       alt={video.fullTitle}
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 35vw, 420px"
+                      className="carousel-media"
                     />
                     <div className="carousel-overlay">
                       <span className="carousel-play-icon">▶</span>
@@ -49,10 +52,12 @@ export default function VideosSection() {
                   </a>
                 ) : (
                   <div className="carousel-thumb-link">
-                    <img
+                    <Image
                       src={video.media[0]}
                       alt={video.fullTitle}
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 35vw, 420px"
+                      className="carousel-media"
                     />
                   </div>
                 )}

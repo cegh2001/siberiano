@@ -955,15 +955,13 @@ button {
     height: 100%;
 }
 
-.carousel-thumb-link img {
-    width: 100%;
-    height: 100%;
+.carousel-media {
     object-fit: cover;
     transition: transform var(--transition-slow), filter var(--transition-medium);
     filter: grayscale(20%) brightness(0.85);
 }
 
-.carousel-card:hover .carousel-thumb-link img {
+.carousel-card:hover .carousel-media {
     transform: scale(1.05);
     filter: grayscale(0%) brightness(1);
 }
@@ -1289,20 +1287,19 @@ button {
 }
 
 .video-gallery-item {
+    position: relative;
     aspect-ratio: 16 / 10;
     overflow: hidden;
     border-radius: 4px;
     background: var(--color-bg-alt);
 }
 
-.video-gallery-item img {
-    width: 100%;
-    height: 100%;
+.video-gallery-image {
     object-fit: cover;
     transition: transform var(--transition-slow);
 }
 
-.video-gallery-item:hover img {
+.video-gallery-item:hover .video-gallery-image {
     transform: scale(1.03);
 }
 
