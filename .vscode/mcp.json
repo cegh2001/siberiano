@@ -1,7 +1,8 @@
 {
   "servers": {
     "engram": {
-      "command": ".\\.vscode\\engram-mcp.cmd"
+      "command": "npx.cmd",
+      "args": ["-y", "@kabirlikestocode/engram", "serve"]
     }
   }
 }
