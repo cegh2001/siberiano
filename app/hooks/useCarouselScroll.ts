@@ -284,11 +284,16 @@ export function useCarouselScroll(itemCount: number) {
       event.stopPropagation();
     };
 
+    const handleNativeDragStart = (event: DragEvent) => {
+      event.preventDefault();
+    };
+
     viewport.addEventListener('pointerdown', handlePointerDown);
     viewport.addEventListener('pointermove', handlePointerMove);
     viewport.addEventListener('pointerup', handlePointerUp);
     viewport.addEventListener('pointercancel', handlePointerCancel);
     viewport.addEventListener('click', handleClickCapture, true);
+    viewport.addEventListener('dragstart', handleNativeDragStart);
 
     return () => {
       restoreUserSelection();
@@ -300,6 +305,7 @@ export function useCarouselScroll(itemCount: number) {
       viewport.removeEventListener('pointerup', handlePointerUp);
       viewport.removeEventListener('pointercancel', handlePointerCancel);
       viewport.removeEventListener('click', handleClickCapture, true);
+      viewport.removeEventListener('dragstart', handleNativeDragStart);
     };
   }, [maxOffset, setTrackOffset, snapTargets]);
 
