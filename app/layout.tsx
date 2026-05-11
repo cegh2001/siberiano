@@ -21,12 +21,20 @@ const bebasNeue = Bebas_Neue({
 
 export const metadata: Metadata = {
   title: 'SIBERIANO',
-  description: 'Productor/Artista',
+  description: 'Sitio oficial de SIBERIANO, productor y artista.',
+  applicationName: 'SIBERIANO',
+  creator: 'Carlos Gonzalez',
+  publisher: 'SIBERIANO',
+  icons: {
+    icon: '/SIBERIANO-FAVICON.png',
+    shortcut: '/SIBERIANO-FAVICON.png',
+    apple: '/SIBERIANO-FAVICON.png',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`} data-scroll-behavior="smooth">
+    <html lang="es" className={`${inter.variable} ${bebasNeue.variable}`} data-scroll-behavior="smooth">
       <body>
         <CursorGlow />
         <Header />
