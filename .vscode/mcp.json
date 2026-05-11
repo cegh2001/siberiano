@@ -1,8 +1,7 @@
 {
   "servers": {
     "engram": {
-      "command": "C:\\Users\\Lenovo\\bin\\engram.exe",
-      "args": ["mcp"]
+      "command": ".\\.vscode\\engram-mcp.cmd"
     }
   }
 }
