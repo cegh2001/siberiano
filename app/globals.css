@@ -1389,10 +1389,19 @@ button {
         transform: translateX(-50%) translateY(0);
         padding: 6px 14px;
         font-size: 10px;
+        pointer-events: auto;
     }
 
     .video-gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .carousel-detail-btn {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
     }
 }
 

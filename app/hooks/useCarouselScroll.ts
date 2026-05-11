@@ -7,6 +7,7 @@ type DragState = {
   pointerId: number;
   startX: number;
   startOffset: number;
+  startIndex: number;
   moved: boolean;
 };
 
@@ -24,6 +25,21 @@ function getClosestTargetIndex(targets: number[], offset: number): number {
     const currentClosestTarget = targets[closestIndex] ?? 0;
     return Math.abs(target - offset) < Math.abs(currentClosestTarget - offset) ? index : closestIndex;
   }, 0);
+}
+
+function getDragThreshold(targets: number[], index: number): number {
+  const currentTarget = targets[index] ?? 0;
+  const nextTarget = targets[index + 1];
+  const previousTarget = targets[index - 1];
+  const nextSpacing = nextTarget !== undefined ? nextTarget - currentTarget : Number.POSITIVE_INFINITY;
+  const previousSpacing = previousTarget !== undefined ? currentTarget - previousTarget : Number.POSITIVE_INFINITY;
+  const spacing = Math.min(nextSpacing, previousSpacing);
+
+  if (!Number.isFinite(spacing) || spacing <= 0) {
+    return 48;
+  }
+
+  return Math.max(48, spacing * 0.25);
 }
 
 function getCurrentTrackOffset(track: HTMLDivElement): number {
@@ -138,7 +154,13 @@ export function useCarouselScroll(itemCount: number) {
       }
 
       const deltaX = clientX - dragState.startX;
-      const nextOffset = clampOffset(dragState.startOffset - deltaX, maxOffset);
+      const dragThreshold = getDragThreshold(snapTargets, dragState.startIndex);
+      const draggedFarEnough = Math.abs(deltaX) >= dragThreshold;
+      const direction = deltaX < 0 ? 1 : -1;
+      const nextIndex = draggedFarEnough
+        ? Math.min(Math.max(dragState.startIndex + direction, 0), snapTargets.length - 1)
+        : dragState.startIndex;
+      const nextOffset = snapTargets[nextIndex] ?? dragState.startOffset;
 
       dragStateRef.current = null;
       restoreUserSelection();
@@ -149,7 +171,7 @@ export function useCarouselScroll(itemCount: number) {
       }
 
       setTrackOffset(nextOffset, false);
-      setActiveIndex(getClosestTargetIndex(snapTargets, nextOffset));
+      setActiveIndex(nextIndex);
     };
 
     const handlePointerDown = (event: PointerEvent) => {
@@ -167,6 +189,7 @@ export function useCarouselScroll(itemCount: number) {
         pointerId: event.pointerId,
         startX: event.clientX,
         startOffset,
+        startIndex: getClosestTargetIndex(snapTargets, startOffset),
         moved: false,
       };
       suppressClickRef.current = false;
