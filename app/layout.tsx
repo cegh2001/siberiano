@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Bebas_Neue } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     shortcut: '/SIBERIANO-FAVICON.png',
     apple: '/SIBERIANO-FAVICON.png',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

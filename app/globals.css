@@ -960,6 +960,12 @@ button {
     height: 100%;
 }
 
+.carousel-video-thumb-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
 .carousel-media {
     object-fit: cover;
     transition: transform var(--transition-slow), filter var(--transition-medium);
@@ -983,6 +989,7 @@ button {
     justify-content: center;
     opacity: 0;
     transition: opacity var(--transition-medium);
+    pointer-events: none;
 }
 
 .carousel-card:hover .carousel-overlay {

@@ -37,7 +37,7 @@ export default function VideosSection() {
                     href={video.youtubeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="carousel-thumb-link"
+                    className="carousel-thumb-link carousel-video-thumb-link"
                   >
                     <Image
                       src={video.youtubeThumbnail || video.media[0]}
@@ -51,7 +51,7 @@ export default function VideosSection() {
                     </div>
                   </a>
                 ) : (
-                  <div className="carousel-thumb-link">
+                  <div className="carousel-thumb-link carousel-video-thumb-link">
                     <Image
                       src={video.media[0]}
                       alt={video.fullTitle}
