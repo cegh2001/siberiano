@@ -2,7 +2,7 @@
   "servers": {
     "engram": {
       "command": "npx.cmd",
-      "args": ["-y", "@kabirlikestocode/engram", "serve"]
+      "args": ["-y", "-p", "@engram-mem/mcp", "engram-mcp"]
     }
   }
 }

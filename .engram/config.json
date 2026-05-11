@@ -1,0 +1,17 @@
+{
+  "projectRoot": "C:\\Users\\shoto\\Documents\\Carlos\\siberiano",
+  "ignorePaths": [
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    ".next",
+    "__pycache__",
+    ".engram"
+  ],
+  "languages": [
+    "typescript",
+    "python"
+  ],
+  "dbPath": "C:\\Users\\shoto\\Documents\\Carlos\\siberiano\\.engram\\graph.db"
+}
