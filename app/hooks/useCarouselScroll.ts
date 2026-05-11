@@ -6,13 +6,16 @@ type Direction = 'left' | 'right';
 type DragState = {
   pointerId: number;
   startX: number;
+  startY: number;
   startOffset: number;
   startIndex: number;
+  dragStartThreshold: number;
   dragThreshold: number;
   dragging: boolean;
 };
 
-const DRAG_START_THRESHOLD = 6;
+const BASE_DRAG_START_THRESHOLD = 8;
+const INTERACTIVE_DRAG_START_THRESHOLD = 18;
 
 function getTrackPadding(track: HTMLDivElement): number {
   const paddingLeft = Number.parseFloat(window.getComputedStyle(track).paddingLeft);
@@ -44,6 +47,10 @@ function getDragThreshold(targets: number[], index: number): number {
 
   const nearestStepDistance = Math.min(...stepDistances);
   return Math.min(Math.max(nearestStepDistance * 0.18, 36), 72);
+}
+
+function isInteractiveTarget(target: EventTarget | null): boolean {
+  return target instanceof Element && target.closest('a, button, input, select, textarea, summary, [role="button"]') !== null;
 }
 
 function getSnapIndexFromDrag(
@@ -223,8 +230,12 @@ export function useCarouselScroll(itemCount: number) {
       dragStateRef.current = {
         pointerId: event.pointerId,
         startX: event.clientX,
+        startY: event.clientY,
         startOffset,
         startIndex,
+        dragStartThreshold: isInteractiveTarget(event.target)
+          ? INTERACTIVE_DRAG_START_THRESHOLD
+          : BASE_DRAG_START_THRESHOLD,
         dragThreshold: getDragThreshold(snapTargets, startIndex),
         dragging: false,
       };
@@ -239,9 +250,10 @@ export function useCarouselScroll(itemCount: number) {
       }
 
       const deltaX = event.clientX - dragState.startX;
+      const deltaY = event.clientY - dragState.startY;
 
       if (!dragState.dragging) {
-        if (Math.abs(deltaX) < DRAG_START_THRESHOLD) {
+        if (Math.abs(deltaX) < dragState.dragStartThreshold || Math.abs(deltaX) <= Math.abs(deltaY)) {
           return;
         }
 
