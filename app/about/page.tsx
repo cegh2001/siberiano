@@ -3,7 +3,7 @@ import AboutContent from './AboutContent';
 
 export const metadata: Metadata = {
   title: 'About — Siberiano',
-  description: 'Biografia, catalogo y ecosistema creativo de Siberiano en La Guaira.',
+  description: 'Productor y artista Siberiano en La Guaira.',
 };
 
 export default function AboutPage() {
