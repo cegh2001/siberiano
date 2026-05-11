@@ -1397,14 +1397,6 @@ button {
     }
 }
 
-@media (hover: none), (pointer: coarse) {
-    .carousel-detail-btn {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-        pointer-events: auto;
-    }
-}
-
 /* === ANIMATIONS === */
 @keyframes fadeIn {
     from { opacity: 0; }

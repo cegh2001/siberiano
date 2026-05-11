@@ -8,8 +8,11 @@ type DragState = {
   startX: number;
   startOffset: number;
   startIndex: number;
-  moved: boolean;
+  dragThreshold: number;
+  dragging: boolean;
 };
+
+const DRAG_START_THRESHOLD = 6;
 
 function getTrackPadding(track: HTMLDivElement): number {
   const paddingLeft = Number.parseFloat(window.getComputedStyle(track).paddingLeft);
@@ -29,17 +32,33 @@ function getClosestTargetIndex(targets: number[], offset: number): number {
 
 function getDragThreshold(targets: number[], index: number): number {
   const currentTarget = targets[index] ?? 0;
-  const nextTarget = targets[index + 1];
   const previousTarget = targets[index - 1];
-  const nextSpacing = nextTarget !== undefined ? nextTarget - currentTarget : Number.POSITIVE_INFINITY;
-  const previousSpacing = previousTarget !== undefined ? currentTarget - previousTarget : Number.POSITIVE_INFINITY;
-  const spacing = Math.min(nextSpacing, previousSpacing);
+  const nextTarget = targets[index + 1];
+  const stepDistances = [previousTarget, nextTarget]
+    .filter((target): target is number => target !== undefined)
+    .map((target) => Math.abs(target - currentTarget));
 
-  if (!Number.isFinite(spacing) || spacing <= 0) {
-    return 48;
+  if (stepDistances.length === 0) {
+    return 36;
   }
 
-  return Math.max(48, spacing * 0.25);
+  const nearestStepDistance = Math.min(...stepDistances);
+  return Math.min(Math.max(nearestStepDistance * 0.18, 36), 72);
+}
+
+function getSnapIndexFromDrag(
+  targets: number[],
+  startIndex: number,
+  deltaX: number,
+  dragThreshold: number
+): number {
+  if (Math.abs(deltaX) < dragThreshold) {
+    return startIndex;
+  }
+
+  const direction = deltaX < 0 ? 1 : -1;
+  const maxIndex = Math.max(targets.length - 1, 0);
+  return Math.min(Math.max(startIndex + direction, 0), maxIndex);
 }
 
 function getCurrentTrackOffset(track: HTMLDivElement): number {
@@ -146,6 +165,16 @@ export function useCarouselScroll(itemCount: number) {
       document.body.style.userSelect = '';
     };
 
+    const beginDrag = (pointerId: number, startOffset: number) => {
+      viewport.style.cursor = 'grabbing';
+      document.body.style.userSelect = 'none';
+      setTrackOffset(startOffset, true);
+
+      if (!viewport.hasPointerCapture(pointerId)) {
+        viewport.setPointerCapture(pointerId);
+      }
+    };
+
     const finishDrag = (pointerId: number, clientX: number) => {
       const dragState = dragStateRef.current;
 
@@ -153,24 +182,29 @@ export function useCarouselScroll(itemCount: number) {
         return;
       }
 
-      const deltaX = clientX - dragState.startX;
-      const dragThreshold = getDragThreshold(snapTargets, dragState.startIndex);
-      const draggedFarEnough = Math.abs(deltaX) >= dragThreshold;
-      const direction = deltaX < 0 ? 1 : -1;
-      const nextIndex = draggedFarEnough
-        ? Math.min(Math.max(dragState.startIndex + direction, 0), snapTargets.length - 1)
-        : dragState.startIndex;
-      const nextOffset = snapTargets[nextIndex] ?? dragState.startOffset;
-
       dragStateRef.current = null;
       restoreUserSelection();
       viewport.style.cursor = maxOffset > 0 ? 'grab' : '';
+
+      if (!dragState.dragging) {
+        return;
+      }
+
+      const deltaX = clientX - dragState.startX;
+      const nextOffset = clampOffset(dragState.startOffset - deltaX, maxOffset);
+      const nextIndex = getSnapIndexFromDrag(
+        snapTargets,
+        dragState.startIndex,
+        deltaX,
+        dragState.dragThreshold
+      );
+      const snappedOffset = snapTargets[nextIndex] ?? nextOffset;
 
       if (viewport.hasPointerCapture(pointerId)) {
         viewport.releasePointerCapture(pointerId);
       }
 
-      setTrackOffset(nextOffset, false);
+      setTrackOffset(snappedOffset, false);
       setActiveIndex(nextIndex);
     };
 
@@ -184,23 +218,17 @@ export function useCarouselScroll(itemCount: number) {
       }
 
       const startOffset = clampOffset(getCurrentTrackOffset(track), maxOffset);
+      const startIndex = getClosestTargetIndex(snapTargets, startOffset);
 
       dragStateRef.current = {
         pointerId: event.pointerId,
         startX: event.clientX,
         startOffset,
-        startIndex: getClosestTargetIndex(snapTargets, startOffset),
-        moved: false,
+        startIndex,
+        dragThreshold: getDragThreshold(snapTargets, startIndex),
+        dragging: false,
       };
       suppressClickRef.current = false;
-      viewport.style.cursor = 'grabbing';
-      document.body.style.userSelect = 'none';
-      setTrackOffset(startOffset, true);
-      viewport.setPointerCapture(event.pointerId);
-
-      if (event.pointerType === 'mouse') {
-        event.preventDefault();
-      }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -212,9 +240,14 @@ export function useCarouselScroll(itemCount: number) {
 
       const deltaX = event.clientX - dragState.startX;
 
-      if (Math.abs(deltaX) > 6) {
-        dragState.moved = true;
+      if (!dragState.dragging) {
+        if (Math.abs(deltaX) < DRAG_START_THRESHOLD) {
+          return;
+        }
+
+        dragState.dragging = true;
         suppressClickRef.current = true;
+        beginDrag(event.pointerId, dragState.startOffset);
       }
 
       const nextOffset = clampOffset(dragState.startOffset - deltaX, maxOffset);
