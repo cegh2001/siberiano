@@ -7,8 +7,10 @@ export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const [displayText, setDisplayText] = useState('');
   const [phase, setPhase] = useState(0); 
+  const [displaySubtitle, setDisplaySubtitle] = useState('');
 
   const typeText = 'PROYECTO';
+  const subtitleText = 'DISEÑADO POR CARLOS GONZALEZ';
 
   useEffect(() => {
     // Phase 0: Type "PROYECTO"
@@ -29,6 +31,24 @@ export default function HeroSection() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (phase === 0) {
+      setDisplaySubtitle('');
+    } else if (phase === 1) {
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        if (currentIndex <= subtitleText.length) {
+          setDisplaySubtitle(subtitleText.substring(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 70);
+
+      return () => clearInterval(interval);
+    }
+  }, [phase]);
 
   useEffect(() => {
     const heroTitle = titleRef.current;
@@ -111,10 +131,22 @@ export default function HeroSection() {
               position: 'absolute',
               opacity: phase === 1 ? 1 : 0,
               transform: phase >= 1 ? 'translateY(0)' : 'translateY(10px)',
-              transition: 'opacity 0.8s ease, transform 0.8s ease'
+              transition: 'opacity 0.8s ease, transform 0.8s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
-            DISEÑADO POR CARLOS GONZALEZ
+            <span>{displaySubtitle}</span>
+            <span 
+              className="streaming-cursor" 
+              style={{ 
+                opacity: phase === 1 && displaySubtitle.length < subtitleText.length ? 1 : 0, 
+                transition: 'opacity 0.5s ease',
+                backgroundColor: 'var(--color-text-muted)',
+                height: '1em'
+              }}
+            />
           </p>
           <p 
             className="hero-subtitle" 
